@@ -1,0 +1,38 @@
+// JavaScript Document
+
+$(function() {
+$('.logo_load').fadeIn(400);
+setTimeout(function(){$('.loader').fadeOut(800);},1000);
+
+	$(".nav__top").addClass("active");
+	$('.nav__top a').attr('href','javascript:void(0)');
+	//swipeshow
+	$("#twitter").swipeshow({
+    autostart: false,
+	interval: 10000,
+    mouse: true,
+	$next: $("#swipeNext"),
+	$previous: $("#swipePrev")
+	});
+	},1000);
+    
+
+
+var siteURL = encodeURIComponent("http://www.plasticmemoriesusa.com/");
+// twitter
+$.getJSON(
+	"http://urls.api.twitter.com/1/urls/count.json?url=" + siteURL  + "&callback=?", null,
+	function(json){ 
+	$('.foot-info-multimedia-socials ul li.twitter div.frame-middle p').append(json["count"]);
+	}
+);
+// facebook
+$.ajax({
+	type: "GET",
+	url: "https://api.facebook.com/method/fql.query?query=select+share_count+from+link_stat+where+url%3D'" + siteURL + "'&format=json&callback",
+	async: true,
+	cache: false,
+	dataType: "jsonp"
+}).done(function(json) {
+	$('.foot-info-multimedia-socials ul li.facebook div.frame-middle p').append(json[0]["share_count"]);
+});
